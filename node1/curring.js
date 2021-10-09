@@ -37,7 +37,7 @@ const curring = (fn, arr = []) => {
 }
 // let newSum = curring(sum)
 // console.log(newSum(1)(3)(5)(3))
-
+// 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
 
 
 function isType (typing, val) {
@@ -45,4 +45,5 @@ function isType (typing, val) {
 }
 let newIsType = curring(isType)
 let isString = newIsType('String')
+console.log(isString('1111'))
 // 偏函数
