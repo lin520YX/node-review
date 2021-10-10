@@ -1,17 +1,19 @@
+
 const STATUS = {
   PENDING: 'PENDING',
   FULFIllED: 'FULFIllED',
   REJECTED: 'REJECTED'
 }
 function resolvePromise (x, promise2, resolve, reject) {
-  if (x === promise2) { //防止自己等待自己
+  if (x == promise2) { //防止自己等待自己
     return reject(new Error('出错了'))
-  } else if (Object.prototype.toString.call(x) == '[object Function]' || typeof x == 'object' && x !== null) {
+  } else if (typeof x == 'function' || typeof x == 'object' && x !== null) {
     let called
     try {
       // 如果是then 是一个函数 我就认为他是个函数
-      if (Object.prototype.toString.call(x.then) == '[object Function]') {
-        x.then.call(x, data => {
+      let then = x.then
+      if (typeof then == 'function') {
+        then.call(x, data => {
           if (called) return
           called = true
           // data 可能还是一个promise
@@ -35,7 +37,7 @@ function resolvePromise (x, promise2, resolve, reject) {
     resolve(x)
   }
 }
-class MyPromise {
+class Promise {
   constructor(executor) {
     this.status = STATUS.PENDING
     this.val = undefined
@@ -63,7 +65,10 @@ class MyPromise {
     }
   }
   then (onfulfilled, onRejected) {
-    let promise2 = new MyPromise((resolve, reject) => {
+    onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : data => data
+    onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err }
+
+    let promise2 = new Promise((resolve, reject) => {
       if (this.status == STATUS.FULFIllED) {
         setTimeout(() => {
           try {
@@ -106,4 +111,12 @@ class MyPromise {
     return promise2
   }
 }
-module.exports = MyPromise
+Promise.defer = Promise.deferred = function () {
+  let dfd = {}
+  dfd.promise = new Promise((resolve, reject) => {
+    dfd.resolve = resolve
+    dfd.reject = reject
+  })
+  return dfd
+}
+module.exports = Promise
