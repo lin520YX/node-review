@@ -80,35 +80,44 @@
 // })
 
 // 如果返回的是一个promise 会用这个promise的结果作为下一次then的成功或者失败
-const fs = require('fs')
-const MyPromise = require('./mypromise')
-function read (...args) {
-  return new MyPromise((resolve, reject) => {
-    fs.readFile(...args, function (err, data) {
-      if (err) reject(err)
-      resolve(data)
-    })
-  })
-}
-read('promise2/age.txt', 'utf8').then(
-  data => {
-    return new MyPromise((resolve, reject) => {
-      resolve(1111111)
-    })
-  },
-  err => {
-    console.log(err)
-  }
-).then(data => {
-  console.log('2', data)
-}, err => {
-  console.log('err', err)
-}).then(data => {
-  console.log('3', data)
-}, err => {
-  console.log('err', err)
-})
+// const fs = require('fs')
+// const MyPromise = require('./mypromise')
+// function read (...args) {
+//   return new MyPromise((resolve, reject) => {
+//     fs.readFile(...args, function (err, data) {
+//       if (err) reject(err)
+//       resolve(data)
+//     })
+//   })
+// }
+// read('promise2/age.txt', 'utf8').then(
+//   data => {
+//     return new MyPromise((resolve, reject) => {
+//       resolve(1111111)
+//     })
+//   },
+//   err => {
+//     console.log(err)
+//   }
+// ).then(data => {
+//   console.log('2', data)
+// }, err => {
+//   console.log('err', err)
+// }).then(data => {
+//   console.log('3', data)
+// }, err => {
+//   console.log('err', err)
+// })
 
 // 1 出错会失败 返回的promise会失败
 // then  为什么可以链式调用 每次都会返回一个新的promise
 
+const MyPromise = require('./mypromise')
+
+MyPromise.resolve('123').finally(() => {
+  console.log('f')
+}).then(data => {
+  console.log(data)
+}, err => {
+  console.log('err', err)
+})

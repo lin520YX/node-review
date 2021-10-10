@@ -45,6 +45,10 @@ class Promise {
     this.onResolveCallbacks = []
     this.onRejectCallbacks = []
     const resolve = (val) => {
+      // 运算符用于检测构造函数的 prototype 属性是否出现在某个实例对象的原型链上。
+      if (val instanceof Promise) {
+        return val.then(resolve, reject)
+      }
       if (this.status == STATUS.PENDING) {
         this.status = STATUS.FULFIllED
         this.val = val
@@ -109,6 +113,50 @@ class Promise {
       }
     })
     return promise2
+  }
+  catch (err) {
+    this.then(null, err)
+  }
+  all (promises) {
+    return new Promise((resolve, reject) => {
+      let result = []
+      let timers = 0
+      function processData (index, val) {
+        result[index] = val
+        if (++timers === promises.length) {
+          resolve(result)
+        }
+      }
+      for (let i = 0; i < promises.length; i++) {
+        if (!(promises[i] instanceof Promise)) {
+          promises[i].then(data => {
+            processData(i, data)
+          }, reject)
+        } else {
+          processData(i, promises[i])
+        }
+      }
+    })
+  }
+  finally (cb) {
+    // 最终的不是try catch finally
+    return this.then(data => {
+      return Promise.resolve(cb()).then(() => data)
+    }, err => {
+      return Promise.resolve(cb()).then(() => {
+        throw err
+      })
+    })
+  }
+  static resolve (val) {
+    return new Promise((resolve) => {
+      resolve(val)
+    })
+  }
+  static reject (err) {
+    return new Promise((resolve, reject) => {
+      reject(err)
+    })
   }
 }
 Promise.defer = Promise.deferred = function () {
