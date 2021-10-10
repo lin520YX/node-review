@@ -6,7 +6,7 @@ const STATUS = {
 }
 function resolvePromise (x, promise2, resolve, reject) {
   if (x == promise2) { //防止自己等待自己
-    return reject(new Error('出错了'))
+    return reject(new TypeError('出错了'))
   } else if (typeof x == 'function' || typeof x == 'object' && x !== null) {
     let called
     try {
@@ -146,6 +146,41 @@ class Promise {
       return Promise.resolve(cb()).then(() => {
         throw err
       })
+    })
+  }
+  race (promises) {
+    return new Promise((resolve, reject) => {
+      for (let index = 0; index < promises.length; index++) {
+        const element = promises[index];
+        if (element && typeof element == 'function') {
+          element.then(resolve, reject)
+        } else {
+          resolve(element)
+        }
+      }
+    })
+  }
+  allSettled (promises) {
+    return new Promise((resolve, reject) => {
+      let result = []
+      let timers = 0
+      function processData (index, val) {
+        result[index] = val
+        if (++timers === promises.length) {
+          resolve(result)
+        }
+      }
+      for (let i = 0; i < promises.length; i++) {
+        if (!(promises[i] instanceof Promise)) {
+          promises[i].then(data => {
+            processData(i, data)
+          }, err => {
+            processData(i, err)
+          })
+        } else {
+          processData(i, promises[i])
+        }
+      }
     })
   }
   static resolve (val) {
