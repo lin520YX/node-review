@@ -2,7 +2,7 @@
 
 // 柯里化也是一个高阶函数
 
-// 1.typeof(他是什么类型  不能区分对象) 2.consstructor 判断构造函数
+// 1.typeof(他是什么类型  不能区分对象) 2.constructor 判断构造函数
 // 3. instanceof 4.Object.prototype.toString.call
 
 // 判断元素的类型
