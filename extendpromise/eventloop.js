@@ -44,3 +44,25 @@ function a () {
 }
 a()
 
+
+Promise.resolve().then(() => {
+  console.log('1')
+  Promise.resolve().then(() => {
+    console.log('1.1')
+    return Promise.resolve() //x.then().then()
+  }).then(() => {
+    console.log(5)
+  })
+}).then(() => {
+  console.log('2') //立即执行
+}).then(() => {
+  console.log('3') //x.then
+}).then(() => {
+  console.log('4') //then
+})
+  .then(() => {
+    console.log('6')
+  })
+  .then(() => {
+    console.log('7')
+  })

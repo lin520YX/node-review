@@ -121,3 +121,4 @@ MyPromise.resolve('123').finally(() => {
 }, err => {
   console.log('err', err)
 })
+16238745
