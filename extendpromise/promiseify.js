@@ -27,3 +27,8 @@
 //   })
 //   return fs
 // }
+
+
+// 宏任务 setTimeout,setImmediate  MessageChannel requestAnimationFrame io 
+
+// 微任务 MutationObserver Promise.then process.nextTick
