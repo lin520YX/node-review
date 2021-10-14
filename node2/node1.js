@@ -53,11 +53,15 @@
 // commander node 命令行界面问题
 
 const program = require('commander')
-program.version('0.0.12')
+// program.version('0.0.12')
 // commander.name('lyf')
 // commander.usage('[options]')
-program
-  .option('-d, --debug <type>', 'my debug', '1222');
-program.parse(process.argv);
-console.info('debug:', program.opts().debug)
+program.command('rm').action(function (source, destination) {
+  console.log('rm');
+});
+program.parse(process.argv)
+// program
+//   .option('-d, --debug <type>', 'my debug', '1222');
+// program.parse(process.argv);
+// console.info('debug:', program.opts().debug)
 
