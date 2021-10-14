@@ -1,6 +1,6 @@
 // node 中的全局对象 this ->global
 // 默认访问文件中的this 不是global 而是module.exports
- 
+
 
 // 全局属性
 // global
@@ -34,15 +34,15 @@
 
 // cross-env //第三方包
 // console.log(require)
-console.log(process.argv) //当前用户传入参数
-let config = process.argv.slice(2).reduce((prev,current,index,arr)=>{
-  console.log('current',current)
-  if(current.startsWith('--')){
-    prev[current.slice(2)] = arr[++index]
-  }
-  return prev
-},{})
-console.log(config)
+// console.log(process.argv) //当前用户传入参数
+// let config = process.argv.slice(2).reduce((prev, current, index, arr) => {
+//   console.log('current', current)
+//   if (current.startsWith('--')) {
+//     prev[current.slice(2)] = arr[++index]
+//   }
+//   return prev
+// }, {})
+// console.log(config)
 // [
 //   '/usr/local/bin/node', 
 //   '/Users/linyunfu/Documents/node-review/node2/node1.js', //运行文件
@@ -51,4 +51,13 @@ console.log(config)
 //   'c'
 // ]
 // commander node 命令行界面问题
+
+const program = require('commander')
+program.version('0.0.12')
+// commander.name('lyf')
+// commander.usage('[options]')
+program
+  .option('-d, --debug <type>', 'my debug', '1222');
+program.parse(process.argv);
+console.info('debug:', program.opts().debug)
 
