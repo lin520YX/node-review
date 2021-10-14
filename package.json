@@ -18,5 +18,8 @@
   "homepage": "https://github.com/lin520YX/node-review#readme",
   "devDependencies": {
     "promises-aplus-tests": "^2.1.2"
+  },
+  "dependencies": {
+    "commander": "^8.2.0"
   }
 }

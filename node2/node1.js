@@ -34,7 +34,7 @@
 
 // cross-env //第三方包
 // console.log(require)
-console.log(process.argv)
+console.log(process.argv) //当前用户传入参数
 let config = process.argv.slice(2).reduce((prev,current,index,arr)=>{
   console.log('current',current)
   if(current.startsWith('--')){
@@ -44,11 +44,11 @@ let config = process.argv.slice(2).reduce((prev,current,index,arr)=>{
 },{})
 console.log(config)
 // [
-//   '/usr/local/bin/node',
-//   '/Users/linyunfu/Documents/node-review/node2/node1.js',
+//   '/usr/local/bin/node', 
+//   '/Users/linyunfu/Documents/node-review/node2/node1.js', //运行文件
 //   'a',
 //   'b',
 //   'c'
 // ]
- 
+// commander node 命令行界面问题
 
