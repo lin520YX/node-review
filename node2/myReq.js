@@ -60,3 +60,7 @@ const r = myReq('./a')
 console.log(r)
 
 
+// esModule 内部变量发生变化时 在取值会采用最新 import {a} from './a' export default导出的值
+// esModule 不能放在代码块中只能放在顶层作用域中
+
+
