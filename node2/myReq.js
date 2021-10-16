@@ -23,13 +23,16 @@ class Module {
       ${content}
     })`
   }
+  static _cache = {
+
+  }
   static _extensions = {
     '.js': (module) => {
       let content = fs.readFileSync(module.id, 'utf8')
       let str = Module.wrapper(content)
       let fn = vm.runInThisContext(str)
       let exports = module.exports
-      fn.call(exports, myReq, module, module.id, module.path)
+      fn.call(exports, exports, myReq, module, module.id, module.path)
     },
     '.json': (module) => {
       let content = fs.readFileSync(module.id, 'utf8')
@@ -45,7 +48,11 @@ class Module {
 
 function myReq (filename) {
   filename = Module._resolveFilename(filename)
+  // if (Module._cache[filename]) {
+  //   return Module._cache[filename]
+  // }
   let module = new Module(filename)
+  // Module._cache[filename] = module
   module.load()
   return module.exports
 }

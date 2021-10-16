@@ -1,6 +1,3 @@
-module.exports = 'aaa'
-console.log(this) //{}
-function a () {
-  console.log(this) //global
-}
-a()
+let aaa = 1
+
+module.exports = aaa
