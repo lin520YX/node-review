@@ -1,5 +1,4 @@
 let aa = require('./a')
-console.log(aa)
 
 // 默认省略 .js .json
 

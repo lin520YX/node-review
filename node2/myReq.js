@@ -29,7 +29,7 @@ class Module {
       let str = Module.wrapper(content)
       let fn = vm.runInThisContext(str)
       let exports = module.exports
-      fn.call(exports, exports, myReq, module, module.id, module.path)
+      fn.call(exports, myReq, module, module.id, module.path)
     },
     '.json': (module) => {
       let content = fs.readFileSync(module.id, 'utf8')
@@ -51,3 +51,5 @@ function myReq (filename) {
 }
 const r = myReq('./a')
 console.log(r)
+
+
