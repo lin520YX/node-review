@@ -1,0 +1,30 @@
+{
+  "name": "npmuse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "lyf": "./bin/www.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.58.2"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  },
+  "peerDependencies": {
+    "vue": "2.6.12"
+  },
+  "bundledDependencies": [
+    "webpack"
+  ],
+  "optionalDependencies": {
+    "vue": "2.6.12"
+  }
+}
