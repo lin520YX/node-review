@@ -7,16 +7,20 @@
     "lyf": "./bin/www.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "mime": "mime a.js",
+    "dev": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.58.2"
+    "webpack": "^5.58.2",
+    "webpack-cli": "^4.9.0"
   },
   "dependencies": {
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "mime": "^2.5.2"
   },
   "peerDependencies": {
     "vue": "2.6.12"

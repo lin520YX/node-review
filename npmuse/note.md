@@ -23,5 +23,14 @@
 - npm install --production  默认只安装生产环境下的
 - 常用版本号（major,minor,patch） 正式版 ^2.0.0  必须以2开头 不能低于当前指定版本 ～2.2.2 开头是2.2
 - alpha beta rc
+- npm version major +git 可以实现版本管理
+- scripts +npx 包发布 默认会将node_modules下的bin目录放到全局 只有在scripts或者npx 当前的目录可以使用运行完酒删除 npx比script的好处是如果模块不存在会安装安装完之后销毁 表示安装时采用最新的包来安装
+- 发包 先登录npm 官网 npm publish npmjs.org
+- nrm use npm
+- npm addUser
+- npm whoami
+- npm publish
+- npm unpublish xxx --force
+- events模块
 
 
