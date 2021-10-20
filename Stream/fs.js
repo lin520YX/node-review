@@ -38,3 +38,8 @@ rs.on('end', () => {
   console.log(Buffer.concat(arr).toString())
 })
 //  控制速度 rs.resume rs.pause
+
+// 内部 new ReadStream 继承 Readable
+// 内部先格式化
+// 内部默认默认打开文件
+// Readable.prototype.read ->ReadStream.prototype._read 
