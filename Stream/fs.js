@@ -14,8 +14,27 @@ const path = require('path')
     highWaterMark?: number;
 }): ReadStream (+1 overload)
 */
-fs.createReadStream(path.resolve(__dirname,'name.txt'),{
-  flags:'r',
-  encoding:null, //编码默认null buffer
-   
+
+// fs.open fs.read fs.close
+let rs = fs.createReadStream(path.resolve(__dirname, 'name.txt'), {
+  flags: 'r',
+  encoding: null, //编码默认null buffer
+  autoClose: true,
+  start: 0, // 包前包后
+  end: 5,
+  highWaterMark: 2
 })
+rs.on('open', (fd) => {
+  console.log(fd)
+})
+let arr = []
+rs.on('data', (chunk) => {
+  // 2禁止
+  arr.push(chunk)
+
+})
+rs.on('end', () => {
+  // 16进制
+  console.log(Buffer.concat(arr).toString())
+})
+//  控制速度 rs.resume rs.pause
