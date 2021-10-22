@@ -17,14 +17,17 @@ const ws = fs.createWriteStream(path.resolve(__dirname,'name.txt'),{
   // fd:'111',
   encoding:'utf8',
   autoClose:true,
-  highWaterMark:2, //默认流水线16k
+  highWaterMark:1, //默认流水线16k
 })
 // ws.write ws.end ws.on('open') ws.on('close')
 let flag = ws.write('1'); //只能写入string 或者buffer类型
 // 放入链表 多个异步任务排队执行
-ws.write('2');
+ws.write('2222');
 ws.write('3');
 ws.write('4');
+ws.on('drain',()=>{
+  console.log(111)
+})
 // console.log('----flag',flag)
 
 
