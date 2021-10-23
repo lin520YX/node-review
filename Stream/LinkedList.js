@@ -31,18 +31,33 @@ class LinkedList{
     if(index<0||index>this.size){
       throw new Error('链表索引异常')
     }
+    if(index ==0){
+      let head = this.head
+      this.head = new Node(element,head)
+    }else{
+      let prevNode = this.getNode(index-1)
+      prevNode.next = new Node(element,prevNode.next)
+    }
     this.size++
   }
   remove(){
 
   }
-  getNode(){
-
+  getNode(_index){
+    let current = this.head
+    for(let i=0;i<_index;i++){
+      current = current.next
+    }
+    return current
   }
   size(){
 
   }
 }
+let ll = new LinkedList()
+ll.add(0,100)
+ll.add(0,200)
+console.log(ll.head)
 /**
  * function a(){
  *  function b(){
