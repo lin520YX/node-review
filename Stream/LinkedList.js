@@ -36,12 +36,24 @@ class LinkedList{
       this.head = new Node(element,head)
     }else{
       let prevNode = this.getNode(index-1)
+      // console.log('prevNode',prevNode)
       prevNode.next = new Node(element,prevNode.next)
     }
     this.size++
   }
-  remove(){
-
+  remove(index){
+    let oldNode
+    if(index==0){
+      oldNode = this.head
+      this.head = oldNode&&oldNode.next
+    }else{
+      let prevNode = this.getNode(index-1)
+      console.log('prevNode',prevNode)
+      oldNode = prevNode.next
+      prevNode.next = prevNode.next.next
+    }
+    this.size --
+    return oldNode
   }
   getNode(_index){
     let current = this.head
@@ -50,14 +62,20 @@ class LinkedList{
     }
     return current
   }
-  size(){
-
+  len(){
+    return this.size
   }
 }
 let ll = new LinkedList()
 ll.add(0,100)
-ll.add(0,200)
-console.log(ll.head)
+ll.add(1,200)
+ll.add(2,300)
+console.log(ll.getNode(0))
+// console.log(ll.head)
+// Node {
+//   element: 100,
+//   next: Node { element: 200, next: Node { element: 300, next: null } }
+// }
 /**
  * function a(){
  *  function b(){
