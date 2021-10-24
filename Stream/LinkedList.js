@@ -66,7 +66,7 @@ class LinkedList{
     return this.size
   }
 }
-let ll = new LinkedList()
+// let ll = new LinkedList()
 ll.add(0,100)
 ll.add(1,200)
 ll.add(2,300)
@@ -85,3 +85,4 @@ console.log(ll.getNode(0))
  * a()
  * 
  * */ 
+module.exports = LinkedList
