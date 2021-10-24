@@ -50,10 +50,10 @@ class LinkedList{
       let prevNode = this.getNode(index-1)
       console.log('prevNode',prevNode)
       oldNode = prevNode.next
-      prevNode.next = prevNode.next.next
+      prevNode.next = oldNode.next
     }
     this.size --
-    return oldNode
+    return oldNode&&oldNode.element
   }
   getNode(_index){
     let current = this.head
@@ -66,10 +66,9 @@ class LinkedList{
     return this.size
   }
 }
-// let ll = new LinkedList()
+let ll = new LinkedList()
 ll.add(0,100)
-ll.add(1,200)
-ll.add(2,300)
+ll.remove(0)
 console.log(ll.getNode(0))
 // console.log(ll.head)
 // Node {

@@ -24,6 +24,7 @@
 const EventEmitter = require('event')
 const fs = require('fs')
 const path = require('path')
+const Queue = require('./queue')
 // class Writable extends EventEmitter{
 //   constructor(){
 //     super()
@@ -48,7 +49,7 @@ class WriteStream extends EventEmitter{
     this.len = 0; //统计的长度
     this.needDrain = false; //是否触发drain 事件
     this.offset = 0 //每次写入的偏移量
-    this.cache = [] //用来实现缓存
+    this.cache = new Queue() //用来实现缓存
   }
   open(){
     fs.open(this.path,this.flags,(err,fd)=>{
@@ -69,7 +70,7 @@ class WriteStream extends EventEmitter{
    }
   //  1）如果当前正在写入 稍后再去写入
   if(this.writing){
-    this.cache.push({
+    this.cache.offer({
       chunk,encoding,cb
     })
   }else{
@@ -94,7 +95,7 @@ class WriteStream extends EventEmitter{
     // 系统写入
   }
   clearBuffer(){ //对于多个异步并发 可以靠队列来实现依次清空
-   let data =  this.cache.shift()
+   let data =  this.cache.poll()
    if(data){
      let {chunk,encoding,cb} = data
     this._write(chunk,encoding,()=>{
