@@ -65,11 +65,25 @@ class LinkedList{
   len(){
     return this.size
   }
+  reverseLinkedList(){
+    function reverse(head){
+      if(head==null||head.next==null) return head
+      let newHead = reverse(head.next) //原来的下一个变成头节点
+      head.next.next = head //让下一个节点的下一个指向原来的头
+      head.next = null //原来的头指向null
+      return newHead
+    }
+    this.head = reverse(this.head)
+    return this.head
+  }
 }
 let ll = new LinkedList()
 ll.add(0,100)
-ll.remove(0)
-console.log(ll.getNode(0))
+ll.add(0,200)
+ll.add(0,300)
+console.log(ll.reverseLinkedList())
+
+
 // console.log(ll.head)
 // Node {
 //   element: 100,
