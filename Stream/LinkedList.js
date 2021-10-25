@@ -76,11 +76,28 @@ class LinkedList{
     this.head = reverse(this.head)
     return this.head
   }
+  reverseLinkedList(){
+    let head = this.head
+    console.log('head',head)
+    if(head==null||head.next==null) return head
+    let newHead = null
+    while(head!==null){
+      let temp = head.next
+      console.log('temp',temp)
+      head.next =  newHead
+      newHead = head
+      console.log('newHead',newHead)
+      head = temp
+      console.log('head',head)
+      console.log('~~~~~~~')
+    }
+    this.head = newHead
+    return newHead
+  }
 }
 let ll = new LinkedList()
 ll.add(0,100)
 ll.add(0,200)
-ll.add(0,300)
 console.log(ll.reverseLinkedList())
 
 
