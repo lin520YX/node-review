@@ -44,13 +44,9 @@ class MyReadStream extends EventEmitter {
     // length:要从文件中读取的字节数;
     // position:文件读取的起始位置;
     // callback:(err,bytes,buffer);bytes:读取的字节数,buffer 为缓冲区对象;
-    console.log(this.fd, buffer, 0, howMuchToRead, this.offset,)
     fs.read(this.fd, buffer, 0, howMuchToRead, this.offset, (err, bytesRead) => {
-      console.log(err)
-      console.log('bytesRead',bytesRead)
       if (bytesRead) {
         this.offset += bytesRead
-        console.log(this.emit)
         this.emit('data', buffer.slice(0, bytesRead))
         if (this.flowing) {
           this.read()
@@ -74,6 +70,18 @@ class MyReadStream extends EventEmitter {
   }
   pause () {
     this.flowing = false
+  }
+  // 异步的 内部采用发布订阅
+  pipe(ws){
+    this.on('data',(chunk)=>{
+      let flag = ws.write(chunk)
+      if(!flag){
+        this.pause()
+      }
+    })
+    ws.on('drain',()=>{
+      this.resume()
+    })
   }
 
 }

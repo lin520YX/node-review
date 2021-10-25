@@ -88,6 +88,7 @@ class WriteStream extends EventEmitter{
     }
     fs.write(this.fd,chunk,0,chunk.length,this.offset,(err,written)=>{
       if(err) return this.emit('error',err)
+      console.log('written',written)
       this.len -=written
       this.offset+=written
       cb()
