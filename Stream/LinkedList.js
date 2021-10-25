@@ -92,13 +92,22 @@ class LinkedList{
       console.log('~~~~~~~')
     }
     this.head = newHead
+    // 第一次
+    /**
+     * {200,next:null}
+     * 
+     * */ 
+     // 第一次
+    /**
+     * {100,next:null}
+     * */ 
     return newHead
   }
 }
-let ll = new LinkedList()
-ll.add(0,100)
-ll.add(0,200)
-console.log(ll.reverseLinkedList())
+// let ll = new LinkedList()
+// ll.add(0,100)
+// ll.add(0,200)
+// console.log(ll.reverseLinkedList())
 
 
 // console.log(ll.head)

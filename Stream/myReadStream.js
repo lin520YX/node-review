@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const EventEmitter = require('event')
+const EventEmitter = require('events')
 class MyReadStream extends EventEmitter {
   constructor(path, options = {}) {
     super()
@@ -13,7 +13,7 @@ class MyReadStream extends EventEmitter {
       this.autoClose = options.autoClose;
     }
     this.start = options.start || 0;
-    this.end = options.end || undefined;
+    this.end = options.end || Infinity;
     this.highWaterMark = options.highWaterMark || 64 * 1024 //64k
     this.open()
     this.offset = this.start
@@ -27,9 +27,7 @@ class MyReadStream extends EventEmitter {
   }
   open () {
     fs.open(this.path, this.flags, (err, fd) => {
-      if (err) {
-        this.emit('error', err)
-      }
+      if (err) return this.emit('error', err)
       this.fd = fd
       this.emit('open', fd)
     })
@@ -46,9 +44,13 @@ class MyReadStream extends EventEmitter {
     // length:要从文件中读取的字节数;
     // position:文件读取的起始位置;
     // callback:(err,bytes,buffer);bytes:读取的字节数,buffer 为缓冲区对象;
+    console.log(this.fd, buffer, 0, howMuchToRead, this.offset,)
     fs.read(this.fd, buffer, 0, howMuchToRead, this.offset, (err, bytesRead) => {
+      console.log(err)
+      console.log('bytesRead',bytesRead)
       if (bytesRead) {
         this.offset += bytesRead
+        console.log(this.emit)
         this.emit('data', buffer.slice(0, bytesRead))
         if (this.flowing) {
           this.read()
@@ -75,6 +77,7 @@ class MyReadStream extends EventEmitter {
   }
 
 }
+module.exports = MyReadStream
 
 
 // 文件可读流 可读流

@@ -21,7 +21,7 @@
 // 1) 格式化传入的数据 默认打开文件
 // 2）用户调用write方法 Writable接口实现write 内部调用_write fs.write
 // 3) 区分是第一次写入 还是后续写入
-const EventEmitter = require('event')
+const EventEmitter = require('events')
 const fs = require('fs')
 const path = require('path')
 const Queue = require('./queue')
@@ -112,3 +112,4 @@ class WriteStream extends EventEmitter{
   }
   
 }
+module.exports = WriteStream
