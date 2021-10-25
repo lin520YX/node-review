@@ -41,6 +41,7 @@ class MyTransform extends Transform{
   }
 }
 let mytranform = new MyTransform()
-process.stdin.on('data',function(chunk){ //监听用户输入
-  process.stdout.write(chunk)
-})
+// process.stdin.on('data',function(chunk){ //监听用户输入
+//   process.stdout.write(chunk)
+// })
+process.stdin.pipe(mytranform).pipe(process.stdout)
