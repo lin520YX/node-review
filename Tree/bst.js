@@ -41,32 +41,48 @@ class BST{
     }
     this.size ++
   }
-  preOrderTraversal(){
+  preOrderTraversal(visitor){
     const traversal = (node)=>{
       if(node==null)return 
-      console.log(node.element)
+      visitor.visit(node.element)
       traversal(node.left)
       traversal(node.right)
     }
     traversal(this.root)
   }
-  inOrderTraversal(){
+  inOrderTraversal(visitor){
     const traversal = (node)=>{
       if(node==null)return 
       traversal(node.left) // 10 8 6 先进后出
-      console.log(node.element)
+      visitor.visit(node.element)
       traversal(node.right)
     }
     traversal(this.root)
   }
-  postOrderTraversal(){
+  // 根据parent属性 一般情况下都可以用栈结构来避免递归
+  postOrderTraversal(visitor){
     const traversal = (node)=>{
       if(node==null)return 
       traversal(node.left)
       traversal(node.right)
-      console.log(node.element)
+      visitor.visit(node.element)
     }
     traversal(this.root)
+  }
+  levelOrderTraversal(visitor){
+    if(this.root==null)return;
+    let stack = [this.root];
+    let index = 0
+    let currentNode = null
+    while(currentNode=stack[index++]){
+      visitor.visit(currentNode)
+      if(currentNode.left){
+        stack.push(currentNode.left)
+      }
+      if(currentNode.right){
+        stack.push(currentNode.right)
+      }
+    }
   }
  
 }
@@ -76,7 +92,13 @@ arr.forEach(item=>{
   bst.add(item) //二叉搜索树中的内容必须有比较性
 })
 // console.dir(bst,{depth:10})
-bst.postOrderTraversal()
+
+// 访问者模式 
+bst.levelOrderTraversal({
+  visit(e){
+    console.log(e.element)
+  }
+})
 
 // 常见的遍历方式 前中后层
 // 
