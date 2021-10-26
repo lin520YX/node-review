@@ -42,7 +42,6 @@ class BST{
     this.size ++
   }
 }
-
 let bst = new BST()
 let arr = [10,8,19,6,15,20,22]
 arr.forEach(item=>{
