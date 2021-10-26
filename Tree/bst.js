@@ -84,6 +84,24 @@ class BST{
       }
     }
   }
+  // 左右互换
+  invertTree(){
+    if(this.root==null)return;
+    let stack = [this.root];
+    let index = 0
+    let currentNode = null
+    while(currentNode=stack[index++]){
+      let temp = currentNode.left
+      currentNode.left = currentNode.right
+      currentNode.right = temp
+      if(currentNode.left){
+        stack.push(currentNode.left)
+      }
+      if(currentNode.right){
+        stack.push(currentNode.right)
+      }
+    }
+  }
  
 }
 let bst = new BST()
