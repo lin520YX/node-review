@@ -41,10 +41,47 @@ class BST{
     }
     this.size ++
   }
+  preOrderTraversal(){
+    const traversal = (node)=>{
+      if(node==null)return 
+      console.log(node.element)
+      traversal(node.left)
+      traversal(node.right)
+    }
+    traversal(this.root)
+  }
+  inOrderTraversal(){
+    const traversal = (node)=>{
+      if(node==null)return 
+      traversal(node.left) // 10 8 6 先进后出
+      console.log(node.element)
+      traversal(node.right)
+    }
+    traversal(this.root)
+  }
+  postOrderTraversal(){
+    const traversal = (node)=>{
+      if(node==null)return 
+      traversal(node.left)
+      traversal(node.right)
+      console.log(node.element)
+    }
+    traversal(this.root)
+  }
+ 
 }
 let bst = new BST()
 let arr = [10,8,19,6,15,20,22]
 arr.forEach(item=>{
   bst.add(item) //二叉搜索树中的内容必须有比较性
 })
-console.dir(bst,{depth:10})
+// console.dir(bst,{depth:10})
+bst.postOrderTraversal()
+
+// 常见的遍历方式 前中后层
+// 
+
+
+
+
+
