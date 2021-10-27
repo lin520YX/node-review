@@ -6,14 +6,21 @@ function rmdir(dir,cb){
     fs.readdir(dir,(err,dirs)=>{
       dirs = dirs.map(item=>path.join(dir,item))
       // 先删除子节点 在删除父节点
-      // 串行
-      let idx = 0 
-      function next(){
-        if(idx==dirs.length) return fs.rmdir(dir,cb)
-        let current = dirs[idx++]
-        rmdir(current,next)
+      // 并发删除多个儿子 删除完毕通知父节点
+      // 并行
+      if(dirs.length==0){
+        return fs.rmdir(dir,cb)
       }
-      next()
+      let idx = 0
+      function done(){
+        if(++idx==dirs.length){
+          fs.rmdir(dir,cb)
+        }
+      }
+      for(let i=0;i<dirs.length;i++){
+        let dir = dirs[i]
+        rmdir(dir,done)
+      }
     })
   })
 }
