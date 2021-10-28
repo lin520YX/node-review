@@ -18,17 +18,17 @@ let server = http.createServer((req,res)=>{
   // console.log(req.url) //后面的# 前面的 希望获取用户的参数  
   // const realPath = path.join(req.hos)
   // console.log(url.parse(req.url,true)) //查询参数变成对象
-  let {pathname,query} = url.parse(req.url,true)
-  console.log(pathname)
-  console.log(query)
-  let arr = []
+  // let {pathname,query} = url.parse(req.url,true)
+  // console.log(pathname)
+  // console.log(query)
+  // let arr = []
   // 如果流中的数据为空 内部会调用push(null) 只要调用就一定触发end
-  req.on('data',(chunk)=>{
-    arr.push(chunk)
-  })
-  req.on('end',()=>{ //如果没有数据也会触发end 方法
-    console.log(Buffer.concat(arr).toString(),'11111')
-  })
+  // req.on('data',(chunk)=>{
+  //   arr.push(chunk)
+  // })
+  // req.on('end',()=>{ //如果没有数据也会触发end 方法
+  //   console.log(Buffer.concat(arr).toString(),'11111')
+  // })
   // let query = {}
   // req.url.replace(/([^&?=]+)=([^&?=]+)/gi,function(){
   //   console.log(arguments)
@@ -38,6 +38,19 @@ let server = http.createServer((req,res)=>{
   
   // console.log(req.httpVersion)
   // console.log(req.headers)
+
+  // ----------
+  // 客户端数据获取
+  // 响应行 响应头 响应体的顺序不能发生变化
+
+  // res是一个可写流 write end
+  // 希望服务器每一秒都给客户端最新的一个价格
+
+  res.statusCode = 300
+  res.statusMessage = 'hhhhhhhhhhh'
+  res.setHeader('a',1)
+  res.write('1111')
+  res.end()
 })
 // server.on('request',(req,res)=>{
 
