@@ -22,3 +22,8 @@ Object.entries(serverConfig).forEach(item=>{
 })
 console.log('finalConfig',finalConfig)
 // console.log(program)
+const Server = require('../src/index')
+//1 解析用户参数
+//2 开启服务
+
+let server = new Server(finalConfig).start()
