@@ -83,6 +83,30 @@ class BST{
         stack.push(currentNode.right)
       }
     }
+   
+  }
+  layerOrderTraversal(visitor){
+    if(this.root==null)return;
+    let res = []
+    let stack = [this.root];
+    while(stack.length){
+      let level = []
+      let len = stack.length
+      for(let i=0;i<len;i++){
+        let node = stack.pop();
+        console.log(node)
+        level.push(node.element)
+        if(node.left){
+          stack.unshift(node.left)
+        }
+        if(node.right){
+          stack.unshift(node.right)
+        }
+      }
+      res.push(level)
+      // visitor.visit(level)
+    }
+    return res
   }
   // 左右互换
   invertTree(){
@@ -112,11 +136,18 @@ arr.forEach(item=>{
 // console.dir(bst,{depth:10})
 
 // 访问者模式 
-bst.levelOrderTraversal({
-  visit(e){
-    console.log(e.element)
-  }
-})
+// bst.levelOrderTraversal({
+//   visit(e){
+//     console.log(e.element)
+//   }
+// })
+console.log(
+  bst.layerOrderTraversal({
+    visit(e){
+      console.log(e.element)
+    }
+  })
+)
 
 // 常见的遍历方式 前中后层
 // 
