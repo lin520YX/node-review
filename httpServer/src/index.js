@@ -38,11 +38,16 @@ class Server{
     // 缺陷 如果文件没变 修改时间修改了
     let ifModifiedSince = req.header['if-modified-since']
     let ctime = statObj.ctime.toGMTString()
-
-    let etag = crpto.createHash('md5').update(filePath)
+    let ifNoneMatch = res.headers['if-none-match']
+    // 指纹方案 根据文件产生一个唯一的标示
+    let etag = crpto.createHash('md5').update(
+      readFileSync(filePath)
+    ).digest('base64')
     res.setHeader('Last-Modified',ctime);
     res.setHeader('Etag',etag)
-
+    if(ifNoneMatch!= ctime){
+        return false
+    }
     // 采用指纹
 
     return ifModifiedSince==ctime
