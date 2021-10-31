@@ -6,6 +6,7 @@ const url = require('url')
 const ejs = require('ejs')
 const mime = require('mime')
 const chalk = require('chalk')
+const crpto = require('crypto')
 
 
 class Server{
@@ -37,7 +38,13 @@ class Server{
     // 缺陷 如果文件没变 修改时间修改了
     let ifModifiedSince = req.header['if-modified-since']
     let ctime = statObj.ctime.toGMTString()
+
+    let etag = crpto.createHash('md5').update(filePath)
     res.setHeader('Last-Modified',ctime);
+    res.setHeader('Etag',etag)
+
+    // 采用指纹
+
     return ifModifiedSince==ctime
     
 
