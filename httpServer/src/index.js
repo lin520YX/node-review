@@ -45,12 +45,15 @@ class Server{
     ).digest('base64')
     res.setHeader('Last-Modified',ctime);
     res.setHeader('Etag',etag)
+    if(ifModifiedSince!=ctime){
+      return false
+  }
     if(ifNoneMatch!= ctime){
         return false
     }
     // 采用指纹
 
-    return ifModifiedSince==ctime
+    return true
     
 
   }
