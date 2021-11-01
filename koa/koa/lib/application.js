@@ -12,9 +12,20 @@ class Application{
   use(fn){
     this.fn = fn
   }
+  createContext(req,res){
+    // 每次请求之间都创建一个全新的上下文保证每次请求互不干扰
+    let ctx = Object.create(this.context)
+    let request = Object.create(this.request)
+    let response = Object.create(this.response)
+    ctx.request = request
+    ctx.request.req = ctx.req = req
+    ctx.response = response
+    ctx.response.res =ctx.res = res
+    return ctx
+  }
   handleRequest(req,res){
-    console.log(111)
-    this.fn(req,res)
+    let ctx = this.createContext(req,res)
+    this.fn(ctx)
   }
   listen(...args){
    let server =  http.createServer(this.handleRequest.bind(this))
