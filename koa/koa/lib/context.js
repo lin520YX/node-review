@@ -8,5 +8,13 @@ function defineGetter (target, key) {
     return this[target][key]
   })
 }
+function defineSetter (target, key) {
+  proto.__defineSetter__(key, function (value) {
+    this[target][key] = value
+  })
+}
 
 defineGetter('request', 'path')
+defineGetter('request', 'query')
+defineGetter('response', 'body')
+defineSetter('response', 'body')
