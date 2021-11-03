@@ -3,8 +3,11 @@ const context = require('./context')
 const request = require('./request')
 const response = require('./response')
 const Stream = require('stream')
-class Application {
+const EventEmitter = require('events')
+
+class Application extends EventEmitter {
   constructor() {
+    super()
     // 我们不能直接吧request赋值给context 如果其中一个改变了request和response
     this.context = Object.create(context) //一般用于继承 可以继承原本的属性 用户扩展到新创建的对象 不会影像原来的对象
     this.request = Object.create(request)
@@ -26,11 +29,19 @@ class Application {
     return ctx
   }
   compose (ctx) {
+    let index = -1
     const dispatch = (i) => {
+      if (i <= index) return Promise.reject(new Error('next() called multiple times'))
+      index = i
       if (i == this.middleWare.length) return Promise.resolve() //终止
       let middleware = this.middleWare[i]
+      if (!middleware) return Promise.resolve()
       // await next
-      return Promise.resolve(middleware(ctx, dispatch.bind(null, i + 1)))
+      try {
+        return Promise.resolve(middleware(ctx, dispatch.bind(null, i + 1)))
+      } catch (e) {
+        return Promise.reject(e)
+      }
     }
     return dispatch(0)
   }
@@ -49,7 +60,13 @@ class Application {
       } else {
         res.end('Not Found')
       }
+    }).catch(err => {
+      this.emit('error', err)
     });
+    this.on('error', () => {
+      res.statusCode = 505
+      res.end('Internal Error')
+    })
 
 
   }
