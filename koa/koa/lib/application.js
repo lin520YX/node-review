@@ -30,7 +30,7 @@ class Application {
       if (i == this.middleWare.length) return Promise.resolve() //终止
       let middleware = this.middleWare[i]
       // await next
-      return Promise.resolve(middleware(ctx, () => dispatch(i + 1)))
+      return Promise.resolve(middleware(ctx, dispatch.bind(null, i + 1)))
     }
     return dispatch(0)
   }
