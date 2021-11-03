@@ -33,6 +33,8 @@ class Application {
     } else if (body instanceof Stream) {
       // res.setHeader('Content-Disposition', `attachment;filename=${encodeURIComponent('下载')}`)
       body.pipe(res)
+    } else if (typeof body == 'object') {
+      res.end(JSON.stringify(body))
     } else {
       res.end('Not Found')
     }
