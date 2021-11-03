@@ -1,4 +1,4 @@
-const koa = require('koa')
+const koa = require('./koa')
 const app = new koa()
 const path = require('path')
 const fs = require('fs')
@@ -8,20 +8,22 @@ const fs = require('fs')
 //koa 中所有的use 传入的方法 都会被包装成promise
 // 会把所有的promise 变成promise链 内部next 前面必须加await
 // 所有的异步逻辑都要包装为promise
-app.use((ctx, next) => { //handleRequest
+
+// 如果加了await 上一个人会等待下一个人执行完毕 
+app.use(async (ctx, next) => { //handleRequest
   console.log(1)
-  next()
+  await next()
   console.log(2)
 })
-app.use((ctx, next) => { //handleRequest
+app.use(async (ctx, next) => { //handleRequest
   console.log(3)
-  next()
+  await next()
   console.log(4)
 
 })
-app.use((ctx, next) => { //handleRequest
+app.use(async (ctx, next) => { //handleRequest
   console.log(5)
-  next()
+  await next()
   console.log(6)
 
 })
