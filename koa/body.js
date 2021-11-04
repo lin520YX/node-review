@@ -3,8 +3,10 @@
 
 const koa = require('koa');
 const app = new koa()
+const bodyParser = require('./koa-bodyparser');
+app.use(bodyParser())
 app.use(async (ctx, next) => {
-  console.log(ctx.path)
+  console.log('GET', ctx.path)
   if (ctx.path == '/login' && ctx.method == 'GET') {
     ctx.body = `
       <form action="/login" method="post">
@@ -14,26 +16,15 @@ app.use(async (ctx, next) => {
       </form>
     `
   } else {
-    next()
+    await next()
   }
 })
-async function body (ctx) {
-  return new Promise((resolve, reject) => {
-    let arr = []
-    ctx.req.on('data', (chunk) => {
-      arr.push(chunk)
-    })
-    ctx.req.on('end', () => {
-      resolve(Buffer.concat(arr))
-    })
-  })
-}
+
 app.use(async (ctx, next) => {
+  console.log('POST', ctx.path)
   if (ctx.path == '/login' && ctx.method == 'POST') {
     ctx.set('Content-Type', 'text/html')
-    ctx.body = await body(ctx)
-  } else {
-    await next()
+    ctx.body = ctx.request.body
   }
 })
 app.listen(1993, () => {
