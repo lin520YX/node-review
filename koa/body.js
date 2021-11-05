@@ -4,21 +4,24 @@
 const koa = require('koa');
 const app = new koa()
 const bodyParser = require('./koa-bodyparser');
+const static = require('./koa-static');
+const path = require('path')
 app.use(bodyParser())
-app.use(async (ctx, next) => {
-  console.log('GET', ctx.path)
-  if (ctx.path == '/login' && ctx.method == 'GET') {
-    ctx.body = `
-      <form action="/login" method="post">
-      <input type="text" name='username'/>
-      <input type="text" name='password'/>
-        <button>提交</button>
-      </form>
-    `
-  } else {
-    await next()
-  }
-})
+app.use(static(path.resolve(__dirname)))
+// app.use(async (ctx, next) => {
+//   console.log('GET', ctx.path)
+//   if (ctx.path == '/login' && ctx.method == 'GET') {
+//     ctx.body = `
+//       <form action="/login" method="post">
+//       <input type="text" name='username'/>
+//       <input type="text" name='password'/>
+//         <button>提交</button>
+//       </form>
+//     `
+//   } else {
+//     await next()
+//   }
+// })
 
 app.use(async (ctx, next) => {
   console.log('POST', ctx.path)
