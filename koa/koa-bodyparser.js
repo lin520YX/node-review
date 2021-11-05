@@ -1,6 +1,5 @@
 module.exports = function bodyParser () {
   return async (ctx, next) => {
-    console.log(11)
     ctx.request.body = await body(ctx)
     await next()
   }

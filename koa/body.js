@@ -6,7 +6,6 @@ const app = new koa()
 const bodyParser = require('./koa-bodyparser');
 app.use(bodyParser())
 app.use(async (ctx, next) => {
-  console.log('GET', ctx.path)
   if (ctx.path == '/login' && ctx.method == 'GET') {
     ctx.body = `
       <form action="/login" method="post">
@@ -21,7 +20,6 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
-  console.log('POST', ctx.path)
   if (ctx.path == '/login' && ctx.method == 'POST') {
     ctx.set('Content-Type', 'text/html')
     ctx.body = ctx.request.body
