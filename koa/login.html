@@ -8,20 +8,23 @@
 </head>
 
 <body>
-  <form action="/login" method="post">
+  <form action="/login" method="post" enctype='multipart/form-data'>
     <input type="text" name='username' />
     <br />
     <input type="text" name='password' />
+    <br>
+    <input type="file" name='avatar' />
     <button>提交</button>
   </form>
   <script>
 
-    const xhr = new XMLHttpRequest()
-    xhr.open('POST', '/login', true)
-    xhr.onload = function () {
-      console.log(xhr.response)
-    }
-    xhr.send(JSON.stringify({ a: 1, b: 2 }))
+    // const xhr = new XMLHttpRequest()
+    // xhr.open('POST', '/login', true)
+    // // xhr.setRequestHeader('Content-Type', 'application/json')
+    // xhr.onload = function () {
+    //   console.log(xhr.response)
+    // }
+    // xhr.send(JSON.stringify({ a: 1, b: 2 }))
   </script>
 </body>
 
