@@ -8,7 +8,7 @@ const static = require('./koa-static');
 const path = require('path')
 
 app.use(static(path.resolve(__dirname)))
-app.use(bodyParser())
+app.use(bodyParser(path.resolve(__dirname, 'upload')))
 // app.use(async (ctx, next) => {
 //   console.log('GET', ctx.path)
 //   if (ctx.path == '/login' && ctx.method == 'GET') {
