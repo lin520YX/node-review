@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jwt-simple": "^0.5.6",
     "koa": "^2.13.4",
     "koa-router": "^10.1.1"
   }
