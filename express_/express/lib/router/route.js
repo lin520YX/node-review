@@ -7,7 +7,8 @@ function Route () {
 }
 Route.prototype.dispatch = function (req, res, out) {
   let idx = 0
-  const next = () => {
+  const next = (err) => {
+    if (err) return out(err)
     if (idx === this.stack.length) return out()
     let layer = this.stack[idx++]
     if (layer.method === req.method.toLowerCase()) {

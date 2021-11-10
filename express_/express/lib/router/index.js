@@ -23,23 +23,37 @@ methods.forEach(method => {
 Router.prototype.handle = function (req, res, done) {
   let { pathname } = url.parse(req.url);
   let idx = 0
-  const next = () => {
+  const next = (err) => {
     if (this.stack.length === idx) return done()
     let layer = this.stack[idx++];
-    if (layer.match(pathname)) {
-      if (layer.route) {
-        if (layer.route.match_method(req.method.toLowerCase())) {
-          layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
-        } else {
-          next();
-        }
+    if (err) {
+      if (!layer.route) {
+        // 中间件
+        layer.handle_error(err, req, res, req)
       } else {
-        layer.handle_request(req, res, next);
+        next(err)
       }
-
     } else {
-      next()
+
+      if (layer.match(pathname)) {
+        if (layer.route) {
+          if (layer.route.match_method(req.method.toLowerCase())) {
+            layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
+          } else {
+            next();
+          }
+        } else {
+          // 正常逻辑不应该走错误中间件
+          if (!layer.handler.length != 4) {
+            layer.handle_request(req, res, next);
+          }
+        }
+
+      } else {
+        next()
+      }
     }
+
   }
   next()
 }

@@ -8,10 +8,14 @@ const app = express()
 // 4 错误处理中间件
 app.get('/a', (req, res, next) => {
   console.log(1)
-  next()
+  next() //只要传递参数就表示执行出错
 })
 app.use('/a', (req, res, next) => {
   console.log(2)
 })
 
+// 错误处理中间件
+app.use((err, req, res, next) => {
+
+})
 app.listen(3000)

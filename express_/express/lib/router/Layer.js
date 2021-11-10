@@ -15,4 +15,12 @@ Layer.prototype.match = function (pathname) {
 Layer.prototype.handle_request = function (req, res, next) {
   this.handler(req, res, next)
 }
+Layer.prototype.handle_error = function (err, req, res, next) {
+  if (this.handler.length == 4) {
+    return this.handler(err, req, res, next)
+  } else {
+    next(err)
+  }
+}
+
 module.exports = Layer;
