@@ -1,25 +1,17 @@
-const express = require('./express');
+const express = require('express');
 
 const app = express()
-// 可以在函数中增加一些中间件 将一个功能拆分成若干个
-// 每个路由都有一个layer （path,dispatch）组成
-// 每个layer 都有一个route 这个route 存放着真是的毁掉 但是要给每个人增加一个方法 get post delete
-// 请求来的时候外层匹配路径执行对应的route的dispatch
-app.get('/', function (req, res, next) {
-
+// 路由要匹配路径和方法 但是中间件不需要匹配到方法 不写路径默认就是/
+// 可以对req res 扩展 
+// 可以决定是否向下执行 
+// 针对某个路径做处理中间件必须在真实的处理路由之前声明
+// 4 错误处理中间件
+app.get('/a', (req, res, next) => {
+  console.log(1)
   next()
-}, function (req, res, next) {
-  setTimeout(() => {
-    next()
-  }, 2000)
-}, function (req, res, next) {
-  res.end('home')
 })
-app.get('/about', function (req, res, next) {
-  res.end('about')
-})
-app.post('/', function (req, res, next) {
+app.use('/a', (req, res, next) => {
   console.log(2)
-  next()
-});
+})
+
 app.listen(3000)

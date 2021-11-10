@@ -12,18 +12,12 @@ Application.prototype.lazy_route = function () {
     this._router = new Router()
   }
 }
-
 methods.forEach(method => {
   Application.prototype[method] = function (path, ...cb) {
     this.lazy_route()
     this._router[method](path, [...cb])
   }
 })
-
-Application.prototype.use = function (path, handler) {
-  this.lazy_route()
-  this._router.use(path, handler)
-}
 
 
 Application.prototype.listen = function (...args) {

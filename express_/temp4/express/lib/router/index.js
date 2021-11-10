@@ -27,16 +27,11 @@ Router.prototype.handle = function (req, res, done) {
     if (this.stack.length === idx) return done()
     let layer = this.stack[idx++];
     if (layer.match(pathname)) {
-      if (layer.route) {
-        if (layer.route.match_method(req.method.toLowerCase())) {
-          layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
-        } else {
-          next();
-        }
+      if (layer.route.match_method(req.method.toLowerCase())) {
+        layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
       } else {
-        layer.handle_request(req, res, next);
+        next();
       }
-
     } else {
       next()
     }

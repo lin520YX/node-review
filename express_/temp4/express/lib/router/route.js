@@ -18,16 +18,6 @@ Route.prototype.dispatch = function (req, res, out) {
   }
   next()
 }
-Route.prototype.use = function (path, handler) {
-  if (typeof path === 'function') {
-    handler = path
-    path = '/'
-  }
-  let layer = new Layer(path, handler)
-  // 中间件没有路由属性
-  layer.route = undefined
-  this.stack.push(layer)
-}
 Route.prototype.match_method = function (method) {
   console.log(method)
   return this.methods[method.toLowerCase()]
