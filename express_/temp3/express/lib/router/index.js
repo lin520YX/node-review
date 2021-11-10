@@ -1,7 +1,6 @@
 const url = require('url');
 const Layer = require('./Layer');
 const Route = require('./route');
-const methods = require('methods')
 function Router () {
   this.stack = []
 }
@@ -13,25 +12,19 @@ Router.prototype.route = function (path) {
   this.stack.push(layer)
   return route
 }
-methods.forEach(method => {
-  Router.prototype[method] = function (path, callbacks) {
-    let route = this.route(path)
-    route[method](callbacks)
-  }
-})
-
+Router.prototype.get = function (path, callbacks) {
+  let route = this.route(path)
+  route.get(callbacks)
+}
 Router.prototype.handle = function (req, res, done) {
   let { pathname } = url.parse(req.url);
+  let requestMethod = req.method.toLowerCase();
   let idx = 0
   const next = () => {
     if (this.stack.length === idx) return done()
     let layer = this.stack[idx++];
     if (layer.match(pathname)) {
-      if (layer.route.match_method(req.method)) {
-        layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
-      } else {
-        next();
-      }
+      layer.handler(req, res, next)
     } else {
       next()
     }

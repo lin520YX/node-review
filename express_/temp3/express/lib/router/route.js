@@ -1,9 +1,6 @@
 const Layer = require('./Layer')
-const methods = require('methods')
-
 function Route () {
   this.stack = []
-  this.methods = {}
 }
 Route.prototype.dispatch = function (req, res, out) {
   let idx = 0
@@ -18,18 +15,12 @@ Route.prototype.dispatch = function (req, res, out) {
   }
   next()
 }
-Route.prototype.match_method = function (method) {
-  return this.methods[method.toLowerCase()]
+Route.prototype.get = function (handlers) {
+  handlers.forEach(handler => {
+    const layer = new Layer('', handler)
+    layer.method = 'get'
+    this.stack.push(layer)
+  });
 }
-methods.forEach(method => {
-  Route.prototype[method] = function (handlers) {
-    handlers.forEach(handler => {
-      const layer = new Layer('', handler)
-      layer.method = method
-      this.stack.push(layer)
-    });
-  }
-})
-
 
 module.exports = Route

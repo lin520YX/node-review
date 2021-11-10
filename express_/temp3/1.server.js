@@ -18,8 +18,4 @@ app.get('/', function (req, res, next) {
 app.get('/about', function (req, res, next) {
   res.end('about')
 })
-app.post('/', function (req, res, next) {
-  console.log(2)
-  next()
-});
 app.listen(3000)
