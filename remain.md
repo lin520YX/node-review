@@ -4,7 +4,7 @@ git config --global --unset http.proxy
 git config --global --unset https.proxy
 networksetup -setv6automatic Wi-Figit
 
-
+git config --global http.sslVerify false
 
 
 
