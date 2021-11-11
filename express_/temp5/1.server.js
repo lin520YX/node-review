@@ -6,14 +6,13 @@ const app = express()
 // 可以决定是否向下执行 
 // 针对某个路径做处理中间件必须在真实的处理路由之前声明
 // 4 错误处理中间件
-app.get('/a/:id/:name', (req, res, next) => {
-  res.end(JSON.stringify(req.params))
-
+app.get('/a', (req, res, next) => {
+  console.log(1)
+  next() //只要传递参数就表示执行出错
 })
-let str ='/a/:id/:name/a'.replace(/:([^/]+)/g,function(){
-  return '([^/]+)'
+app.use('/a', (req, res, next) => {
+  console.log(2)
 })
-console.log(str)
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
