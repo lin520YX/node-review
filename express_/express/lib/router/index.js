@@ -5,10 +5,9 @@ const methods = require('methods');
 
 function Router () { // 如果一个类返回的不是基本数据类型那么这个类中的this 会指向这个返回值
   let router = (req, res, next) => { // express.Router() = 这个中间件函数
-    console.log(req.url)
     // 请求时会走到此函数中
     // 怎么去处理对应的stack中的内容
-    // router.handle(req, res, next)
+    router.handle(req, res, next)
 
   }
   router.stack = [];
@@ -51,6 +50,7 @@ proto.handle = function (req, res, out) {
     if (this.stack.length === idx) return out()
     let layer = this.stack[idx++];
     // 出错找错误处理中间件
+    // 下一个中间件要清空
     if (removed) {
       req.url = removed + pathname; // 当调用next时 会从上一层跑到下一次去, 这时要把删除的路径加上
       removed = '';
@@ -67,6 +67,7 @@ proto.handle = function (req, res, out) {
         // 有可能是中间件 
         if (layer.route) {
           if (layer.route.match_method(req.method)) {
+
             layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
           } else {
             next();
@@ -75,7 +76,7 @@ proto.handle = function (req, res, out) {
           // 如果参数是4个参数 说明是错误处理中间件 ，正常逻辑不应该走错误处理逻辑
           if (layer.handler.length != 4) {
             if (layer.path !== '/') {
-              removed = layer.path; // /add
+              removed = layer.path; // /article/add --->/add
               req.url = pathname.slice(removed.length)
             }
 
