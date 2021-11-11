@@ -36,6 +36,7 @@ Router.prototype.handle = function (req, res, done) {
     } else {
 
       if (layer.match(pathname)) {
+        req.params = layer.params
         if (layer.route) {
           if (layer.route.match_method(req.method.toLowerCase())) {
             layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
