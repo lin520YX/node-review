@@ -20,6 +20,7 @@
     "promises-aplus-tests": "^2.1.2"
   },
   "dependencies": {
-    "commander": "^8.2.0"
+    "commander": "^8.2.0",
+    "ejs": "^3.1.6"
   }
 }
