@@ -4,6 +4,10 @@ const path = require('path')
 const fs = require('fs')
 function renderFile(filename,data,cb){
   let template = fs.readFileSync(filename,'utf8')
+   template = template.replace(/<%=(.+?)%>/g,function(){
+    return "${"+arguments[1]+"}"
+  })
+  console.log(template)
   let head = `let str = ''\r\n`
   head +=`with(obj){\r\n`
   head +="str+=`"
