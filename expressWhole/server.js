@@ -4,7 +4,13 @@ const path = require('path')
 app.set('views',path.resolve('view'))
 app.set('view engine','html')
 app.engine('html',require('ejs').__express)
-app.get('/',(req,res)=>{
+app.param('name',(req,res,next,key,value)=>{
+
+})
+app.param('id',(req,res,next,key,value)=>{
+  
+})
+app.get('/user/:name/:id',(req,res)=>{
   console.log(res.render)
   res.render('index.ejs',{name:'lyf'})
 })

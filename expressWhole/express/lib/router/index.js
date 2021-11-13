@@ -17,6 +17,45 @@ function Router () { // 如果一个类返回的不是基本数据类型那么�
 
 // 1.创建route 和 layer  layer上要有一个route属性
 let proto = {}
+proto.paramsCallbacks={}
+proto.param=function(key,cb){
+  if(this.paramsCallbacks[key]){
+    this.paramsCallbacks[key].push(cb)
+  }else{
+    this.paramsCallbacks[key] = [cb]
+  }
+}
+proto.handle_params = function (req, res, next) {
+  let keys = layer.keys //[{name:'xxxx'},{id:'xx'}]
+  if(keys){
+    return out()
+  }
+  keys = keys.map(item =>item)
+  let idx = 0 //{name:[fn,fn]} 
+  let key;
+  let fns;
+  let next = ()=>{
+    if(keys.length === idx)return out()
+    key = keys[idx]
+    fns = this.paramsCallbacks[key]
+    if(fns&&fns.length){
+      callbackParam()
+    }else{
+      next()
+    }
+  }
+  next()
+  let i = 0 
+  let callbackParam= ()=>{
+    let fn = fns[i++]
+    if(fn){
+      fn(req,res,callbackParam,layer.params[key],key)
+    }else{
+      i =0
+      next()
+    }
+  }
+}
 proto.route = function (path) {
   let route = new Route();
   // 每次调用get方法时 都产生一个layer （路径，对应route的dispatch方法）
@@ -67,8 +106,9 @@ proto.handle = function (req, res, out) {
         // 有可能是中间件 
         if (layer.route) {
           if (layer.route.match_method(req.method)) {
-
-            layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
+            proto.handle_params(layer,req,res,()=>{
+              layer.handle_request(req, res, next); // dispatch 里面处理完毕了 调用next方法
+            })
           } else {
             next();
           }

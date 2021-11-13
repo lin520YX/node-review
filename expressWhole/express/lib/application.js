@@ -50,6 +50,10 @@ Application.prototype.use = function (path, handler) {
   this.lazy_route()
   this._router.use(path, handler)
 }
+Application.prototype.param = function (key, cb) {
+  this.lazy_route()
+  this._router.param(key,cb)
+}
 
 
 Application.prototype.listen = function (...args) {

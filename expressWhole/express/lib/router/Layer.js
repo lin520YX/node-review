@@ -38,7 +38,11 @@ Layer.prototype.handle_error = function (err, req, res, next) {
   }
   next(err); // 不是错误处理中间件继续向下执行
 }
+
 Layer.prototype.handle_request = function (req, res, next) {
   this.handler(req, res, next)
 }
+
+
+
 module.exports = Layer;
