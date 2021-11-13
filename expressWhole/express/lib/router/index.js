@@ -25,7 +25,7 @@ proto.param=function(key,cb){
     this.paramsCallbacks[key] = [cb]
   }
 }
-proto.handle_params = function (req, res, next) {
+proto.handle_params = function (layer,req, res, out) {
   let keys = layer.keys //[{name:'xxxx'},{id:'xx'}]
   if(keys){
     return out()
@@ -36,7 +36,7 @@ proto.handle_params = function (req, res, next) {
   let fns;
   let next = ()=>{
     if(keys.length === idx)return out()
-    key = keys[idx]
+    key = keys[idx++]
     fns = this.paramsCallbacks[key]
     if(fns&&fns.length){
       callbackParam()
@@ -44,7 +44,7 @@ proto.handle_params = function (req, res, next) {
       next()
     }
   }
-  next()
+ 
   let i = 0 
   let callbackParam= ()=>{
     let fn = fns[i++]
@@ -55,6 +55,7 @@ proto.handle_params = function (req, res, next) {
       next()
     }
   }
+  next()
 }
 proto.route = function (path) {
   let route = new Route();
