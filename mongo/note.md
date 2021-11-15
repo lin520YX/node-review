@@ -29,6 +29,8 @@ mongoexport -d web -c student --csv -f name,a -o a.csv
 mongoimport --db web --collection student --file a.csv
 
 
+mongod --port 27018 --dbpath=xxx
+
 备份
 mongodump --db web --collection student --out backup
 mongorestore backup
